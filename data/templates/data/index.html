@@ -1,22 +1,32 @@
 <h1>COVID 19 Data Dashboard</h1>
 <h3>Updated to: {{ date }}</h3>
 <hr>
-<p>{{ lastdatedata }}</p>
 
-<table>
-  <tr>
-    <th>Country</th>
-    <th>Date</th>
-  </tr>
-</table>
-
-
+<h3>Data by Country</h3>
 {% for country, values in data.items %}
   <h4>{{ country }}</h4>
-  {% for value in values %}
-    {% for key, detail in value.items %}
-      <p>{{ key }}: {{ detail }}</p>
-    {% endfor %}
-  {% endfor %}
+    <table>
+      <thead>
+        <tr>
+          <th colspan="4">{{ country }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Date</th>
+          <th>Confirmed</th>
+          <th>Deaths</th>
+          <th>Recovered</th>
+        </tss
+        {% for value in values %}
+        <tr>
+          {% for key, detail in value.items %}
+            <td>{{ detail }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  
 {% endfor %}
 

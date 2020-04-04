@@ -8,7 +8,6 @@ def index(request):
   data = response.json()
   country = 'Australia'
   lastdate = len(data[country])-1
-  print(data[country][lastdate]['confirmed'])
   return render(request, 'data/index.html', {
     'date': data[country][lastdate]['date'],
     'data': data,

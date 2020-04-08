@@ -1,26 +1,69 @@
-<h1>COVID 19 Data Dashboard</h1>
-<h3>Updated to: {{ date }}</h3>
-<h3>Source: <a href="https://github.com/pomber/covid19">CSSEGISandData/COVID-19</a></h3>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'data/style.css' %}">
+
+<h1>COVID 19 Daily Data Dashboard</h1>
+<h4>Source: <a href="https://github.com/pomber/covid19">CSSEGISandData/COVID-19</a></h4>
 <hr>
 
-<h3>Data by Country</h3>
-{% for country, values in data.items %}
-  <h4>{{ country }}</h4>
-    <table>
-      <tr>
-        <th>Date</th>
-        <th>Confirmed</th>
-        <th>Deaths</th>
-        <th>Recovered</th>
-      </tr>
-      {% for value in values %}
-      <tr>
-        {% for key, detail in value.items %}
-          <td>{{ detail }}</td>
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </table>
-  
-{% endfor %}
+<h2>LATEST: Data of {{ date }}</h2>
+<h3>Worldwide Total</h3>
+<table class="table-fixed">
+  <tr>
+    <th id="firstcol">Worldwide</th>
+    <th>Confirmed</th>
+    <th>Deaths</th>
+    <th>Recovered</th>
+  </tr>
+  <tr>
+    <td>Cases Number</td>
+    <td>{{ total_confirmed }}</td>
+    <td>{{ total_deaths }}</td>
+    <td>{{ total_recovered }}</td>
+  </tr>
+</table>
 
+
+<h3>Data by Country</h3>
+<table class="table-fixed">
+  <tr>
+    <th id="firstcol">Country</th>
+    <th>Confirmed</th>
+    <th>Deaths</th>
+    <th>Recovered</th>
+  </tr>
+  {% for country, values in data.items %}
+  <tr>
+    <td>{{ country }}</td>
+    {% for value in values %}
+      {% if value.date == date %}
+        <td>{{ value.confirmed }}</td>
+        <td>{{ value.deaths }}</td>
+        <td>{{ value.recovered }}</td>
+      {% endif %}
+    {% endfor %}
+  </tr>
+  {% endfor %}
+    
+</table>
+
+
+<h2>HISTORIC: Data from {{ firstdate }} to {{ date }}</h2>
+<h3>Data by Country</h3>
+<div id="historic">
+  <table>
+    <tr>
+      <th id="historic-first-col"><div class="historic-col">Country</div></th>
+      {% for x,y in dates.items %}
+        <th id="historic-other-col"><div class="historic-col">{{ y|date:"n-j" }}</div></th>
+      {% endfor %}
+    </tr>
+    <tr>
+      {% for country, values in data.items %}
+        <td id="historic-first-col"><div class="historic-col">{{ country }}</div></td>
+          {% for value in values %}
+        <td id="historic-other-col"><div class="historic-col">{{ value.confirmed }}</div></td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</div>

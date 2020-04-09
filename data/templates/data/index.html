@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <link rel="stylesheet" type="text/css" href="{% static 'data/style.css' %}">
 
 <h1>COVID 19 Daily Data Dashboard</h1>
@@ -16,9 +17,9 @@
   </tr>
   <tr>
     <td>Cases Number</td>
-    <td>{{ total_confirmed }}</td>
-    <td>{{ total_deaths }}</td>
-    <td>{{ total_recovered }}</td>
+    <td>{{ total_confirmed|intcomma }}</td>
+    <td>{{ total_deaths|intcomma }}</td>
+    <td>{{ total_recovered|intcomma }}</td>
   </tr>
 </table>
 
@@ -31,16 +32,12 @@
     <th>Deaths</th>
     <th>Recovered</th>
   </tr>
-  {% for country, values in data.items %}
+  {% for country, value in latest.items %}
   <tr>
     <td>{{ country }}</td>
-    {% for value in values %}
-      {% if value.date == date %}
-        <td>{{ value.confirmed }}</td>
-        <td>{{ value.deaths }}</td>
-        <td>{{ value.recovered }}</td>
-      {% endif %}
-    {% endfor %}
+    <td>{{ value.confirmed|intcomma }}</td>
+    <td>{{ value.deaths|intcomma }}</td>
+    <td>{{ value.recovered|intcomma }}</td>
   </tr>
   {% endfor %}
     
@@ -61,7 +58,7 @@
       {% for country, values in data.items %}
         <td id="historic-first-col"><div class="historic-col">{{ country }}</div></td>
           {% for value in values %}
-        <td id="historic-other-col"><div class="historic-col">{{ value.confirmed }}</div></td>
+        <td id="historic-other-col"><div class="historic-col">{{ value.confirmed|intcomma }}</div></td>
       {% endfor %}
     </tr>
     {% endfor %}

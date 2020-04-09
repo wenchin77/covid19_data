@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import datetime
 from datetime import date
+from operator import getitem 
 import requests
 
 def index(request):
@@ -9,6 +10,19 @@ def index(request):
   data = response.json()
   country = 'Australia'
   lastdate = len(data[country])-1
+
+  latest = dict()
+  for country in data:
+    latest[country] = {
+      'confirmed': data[country][lastdate]['confirmed'],
+      'deaths': data[country][lastdate]['deaths'],
+      'recovered': data[country][lastdate]['recovered'],
+    }
+  # Sort nested dictionary by key 
+  latest_sorted = dict(sorted(latest.items(), key=lambda x: getitem(x[1], 'confirmed') ,reverse=True))
+  # latest_sorted can also use this line below:
+  # latest_sorted = {k: v for k, v in sorted(latest.items(), key=lambda x: getitem(x[1], 'confirmed') ,reverse=True)}
+  data_sorted = dict(sorted(data.items(), key=lambda country: getitem(country[1][lastdate],'confirmed'), reverse=True))
 
   dates = dict()
   index = 0
@@ -28,12 +42,13 @@ def index(request):
   
   return render(request, 'data/index.html', {
     'date': data[country][lastdate]['date'],
-    'data': data,
+    'data': data_sorted,
     'dates': dates,
+    'latest': latest_sorted,
     # 'today': date.today().strftime("%Y-%m-%d"),
     'firstdate': data[country][0]['date'],
     'length': len(data[country])+1,
-    'total_confirmed': f'{total_confirmed:,}', # print number with commas for readability
-    'total_deaths': f'{total_deaths:,}',
-    'total_recovered': f'{total_recovered:,}',
+    'total_confirmed': total_confirmed,
+    'total_deaths': total_deaths,
+    'total_recovered': total_recovered,
   })

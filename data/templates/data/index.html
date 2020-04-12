@@ -2,67 +2,69 @@
 {% load humanize %}
 <link rel="stylesheet" type="text/css" href="{% static 'data/style.css' %}">
 
-<h1>COVID-19 Data Dashboard</h1>
-<p>Made by Wenchin: <a href="https://github.com/wenchin77/covid19_data">GitHub repo</a></p>
-<p>Data Source: <a href="https://github.com/pomber/covid19">CSSEGISandData/COVID-19</a></p>
-<p>*** Wash your hands and stay home!</p>
-<hr>
+<div class="header">
+  <h1>COVID-19 Data Dashboard</h1>
+  <p><a href="https://github.com/wenchin77/covid19_data">GitHub Repo by Wenchin</a></p>
+  <p><a href="https://github.com/pomber/covid19">Data Source</a></p>
+</div>
 
-<h2>SNAPSHOT: Data of {{ date }}</h2>
-<h3>Worldwide Total</h3>
-<table class="table-fixed">
-  <tr>
-    <th id="firstcol">Worldwide</th>
-    <th>Confirmed</th>
-    <th>Deaths</th>
-    <th>Recovered</th>
-  </tr>
-  <tr>
-    <td>Cases Number</td>
-    <td>{{ total_confirmed|intcomma }}</td>
-    <td>{{ total_deaths|intcomma }}</td>
-    <td>{{ total_recovered|intcomma }}</td>
-  </tr>
-</table>
-
-
-<h3>Data by Country</h3>
-<table class="table-fixed">
-  <tr>
-    <th id="firstcol">Country</th>
-    <th>Confirmed</th>
-    <th>Deaths</th>
-    <th>Recovered</th>
-  </tr>
-  {% for country, value in latest.items %}
-  <tr>
-    <td>{{ country }}</td>
-    <td>{{ value.confirmed|intcomma }}</td>
-    <td>{{ value.deaths|intcomma }}</td>
-    <td>{{ value.recovered|intcomma }}</td>
-  </tr>
-  {% endfor %}
-    
-</table>
-
-
-<h2>HISTORIC: Data from {{ firstdate }} to {{ date }}</h2>
-<h3>Data by Country</h3>
-<div id="historic">
-  <table>
+<div class="body">
+  <h2>SNAPSHOT: Data of {{ date }}</h2>
+  <h3>Worldwide Total</h3>
+  <table class="table-fixed">
     <tr>
-      <th id="historic-first-col"><div class="historic-col">Country</div></th>
-      {% for x,y in dates.items %}
-        <th id="historic-other-col"><div class="historic-col">{{ y|date:"n-j" }}</div></th>
-      {% endfor %}
+      <th id="firstcol">Worldwide</th>
+      <th>Confirmed</th>
+      <th>Deaths</th>
+      <th>Recovered</th>
     </tr>
     <tr>
-      {% for country, values in data.items %}
-        <td id="historic-first-col"><div class="historic-col">{{ country }}</div></td>
-          {% for value in values %}
-        <td id="historic-other-col"><div class="historic-col">{{ value.confirmed|intcomma }}</div></td>
-      {% endfor %}
+      <td>Cases Number</td>
+      <td>{{ total_confirmed|intcomma }}</td>
+      <td>{{ total_deaths|intcomma }}</td>
+      <td>{{ total_recovered|intcomma }}</td>
+    </tr>
+  </table>
+
+
+  <h3>Data by Country</h3>
+  <table class="table-fixed">
+    <tr>
+      <th id="firstcol">Country</th>
+      <th>Confirmed</th>
+      <th>Deaths</th>
+      <th>Recovered</th>
+    </tr>
+    {% for country, value in latest.items %}
+    <tr>
+      <td>{{ country }}</td>
+      <td>{{ value.confirmed|intcomma }}</td>
+      <td>{{ value.deaths|intcomma }}</td>
+      <td>{{ value.recovered|intcomma }}</td>
     </tr>
     {% endfor %}
+      
   </table>
+
+
+  <h2>HISTORIC: Data from {{ firstdate }} to {{ date }}</h2>
+  <h3>Data by Country</h3>
+  <div id="historic">
+    <table>
+      <tr>
+        <th id="historic-first-col"><div class="historic-col">Country</div></th>
+        {% for x,y in dates.items %}
+          <th id="historic-other-col"><div class="historic-col">{{ y|date:"n-j" }}</div></th>
+        {% endfor %}
+      </tr>
+      <tr>
+        {% for country, values in data.items %}
+          <td id="historic-first-col"><div class="historic-col">{{ country }}</div></td>
+            {% for value in values %}
+          <td id="historic-other-col"><div class="historic-col">{{ value.confirmed|intcomma }}</div></td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
 </div>

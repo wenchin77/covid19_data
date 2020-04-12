@@ -1,3 +1,8 @@
+h1, h2, h3, h4, p, table {
+  font-family: "Trebuchet MS", "Arial";
+  color: #444
+}
+
 table {
   border-collapse: collapse;
   width: 80%;
@@ -53,4 +58,35 @@ td:nth-child(1) {
   position: relative;
   left: 314px;
   z-index: 1;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #222;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 10px;
+}
+
+.header h1,
+.header p {
+  color: #f2f2f2;
+  margin: 10px;
+  padding-right: 10px;
+}
+
+.body {
+  margin-top: 100px;
+  margin-left: 10px;
+}
+
+/* unvisited link */
+a {
+  color: #f2f2f2;
+  text-decoration: none;
 }
